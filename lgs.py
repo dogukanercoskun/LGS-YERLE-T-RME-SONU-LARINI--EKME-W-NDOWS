@@ -1,7 +1,6 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
@@ -14,6 +13,13 @@ import sys
 from selenium.webdriver.support.ui import Select
 import logging
 import os
+
+
+
+
+
+
+
 
 logging.basicConfig(filename='error_log.txt', level=logging.ERROR)
 def save_progress(index):
@@ -79,11 +85,14 @@ def yeni_sorgu():
 def find_input_by_attribute(driver, attribute, value):
     return driver.find_element(By.CSS_SELECTOR, f'input[{attribute}="{value}"]')       
 def giris_elemanları():
-    tcInput = find_input_by_attribute(driver, "placeholder", "T.C. Kimlik Numarası")
-    okulNoInput = find_input_by_attribute(driver, "placeholder", "Okul Numarası")
+    #tcInput = find_input_by_attribute(driver, "placeholder", "T.C. Kimlik Numarası")
+    #okulNoInput = find_input_by_attribute(driver, "placeholder", "Okul Numarası")
     #tcInput=driver.find_element(By.XPATH, '//input[(@id="TC_KIMLIK_NO") or (@id="ADAY_NO") or (@id="TCNO")]')
-    #okulNoInput=driver.find_element(By.XPATH, '//input[(@id="GUVENLIKNUMARASI") or (@id="OKULNO")]')
+    #okulNoInput=driv8er.find_element(By.XPATH, '//input[(@id="GUVENLIKNUMARASI") or (@id="OKULNO")]')
+    tcInput = driver.find_element(By.XPATH, '//input[contains(@placeholder, "Kimlik")]')
+    okulNoInput = driver.find_element(By.XPATH, '//input[contains(@placeholder, "Okul")]')
     tcInput.clear()
+    okulNoInput.clear()
     tcInput.send_keys(str(id))
     okulNoInput.send_keys(str(okulNo))
     selectDay=Select(driver.find_element(By.NAME, "GUN"))
@@ -259,9 +268,9 @@ bDay:any
 bMonth:any
 bYear:any
 id:any
-service = Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service)
 
+service = Service(executable_path='./chromedriver.exe')
+driver = webdriver.Chrome(service=service)
 # driver.maximize_window()
 driver.get(url)
 time.sleep(2)
